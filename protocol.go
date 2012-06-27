@@ -156,6 +156,20 @@ var errText = map[uint8]string{
 	255: "None (Unknown)",
 }
 
+// SendPayloadString message to the specified device.
+// the token is the string found in the device and will converted to hex by the api
+func (client *ApnsConn) SendPayloadString(token string, payload []byte, expiration time.Duration) (err error) {
+
+	btoken, err := hex.DecodeString(token)
+
+	if err != nil {
+		return err
+	}
+	err = client.SendPayload(btoken, payload, expiration)
+
+	return
+}
+
 // SendPayload message to the specified device. 
 // The commands waits for a response for no more that client.ReadTimeout.
 // The method uses the same connection. If the connection is closed it tries to reopen it at the next
@@ -195,7 +209,6 @@ func (client *ApnsConn) SendPayload(token, payload []byte, expiration time.Durat
 		return
 	}
 
-	// wait for 1 seconds error pdu from the socket
 	client.tlsconn.SetReadDeadline(time.Now().Add(client.ReadTimeout))
 
 	readb := [6]byte{}
