@@ -69,6 +69,7 @@ func NewClient(endpoint, certificate, key string) (*ApnsConn, error) {
 	apnsConn := &ApnsConn{
 		tlsconn: nil,
 		tls_cfg: tls.Config{
+			InsecureSkipVerify: true,
 			Certificates: []tls.Certificate{cert}},
 		endpoint:         endpoint,
 		ReadTimeout:      150 * time.Millisecond,
