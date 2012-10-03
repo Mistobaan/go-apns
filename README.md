@@ -4,10 +4,11 @@ go-apns
 Apple Notification Service API written in GoLang
 
 
-Install::
+# Install
+
         go get github.com/Mistobaan/go-apns
 
-Usage::
+# Usage
         
        client = NewClient(...)
        client.SendPayloadString()
