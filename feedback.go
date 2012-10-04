@@ -65,7 +65,9 @@ func (client *ApnsConn) StartListening() <-chan *ApnsFeedbackMessage {
 
 	err := client.connect()
 	if err != nil {
-		panic(err)
+		close(outChan)
+		log.Printf("Could not Connect to feedback Service %v", err.Error())
+		return outChan
 	}
 
 	go func() {
